@@ -1,3 +1,4 @@
+// Trigger build - Vercel deploy
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { adminDb } from "../lib/firebase-admin";
@@ -9,15 +10,12 @@ import CosmicBackground from "../components/CosmicBackground";
 import ScrollReveal from "../components/ScrollReveal";
 import HomeGallery from "../components/HomeGallery";
 import LiveUpdates from "../components/LiveUpdates";
-
 export const dynamic = "force-dynamic";
-
 export default async function Home() {
   const cookieStore = await cookies();
   const studentId = cookieStore.get("student_auth")?.value;
   const isAdmin = cookieStore.get("admin_auth")?.value === "true";
   const isLoggedIn = !!studentId || isAdmin;
-
   // Check if student needs parent details popup
   let showParentPopup = false;
   if (studentId) {
@@ -34,13 +32,11 @@ export default async function Home() {
       }
     }
   }
-
   // Fetch ALL offerings for client-side search
   const offeringsSnap = await adminDb.collection("courses").orderBy("createdAt", "desc").get();
   const allOfferings = offeringsSnap.docs
     .map(doc => ({ id: doc.id, ...doc.data() }))
     .filter((c: any) => c.isCompleted !== true);
-
   // Fetch gallery slides
   const gallerySnap = await adminDb.collection("gallery").orderBy("createdAt", "desc").get();
   const galleryItems = gallerySnap.docs.map(doc => ({
@@ -49,7 +45,6 @@ export default async function Home() {
     description: doc.data().description || "",
     imageUrl: doc.data().imageUrl || "",
   }));
-
   // Fetch live update cards
   const liveUpdatesSnap = await adminDb.collection("live_updates").orderBy("createdAt", "desc").get();
   const liveUpdateItems = liveUpdatesSnap.docs.map(doc => ({
@@ -58,17 +53,12 @@ export default async function Home() {
     description: doc.data().description || "",
     imageUrl: doc.data().imageUrl || "",
   }));
-
-
-
   return (
     <div className="main-content" style={{ position: "relative", paddingBottom: "4rem" }}>
       <CosmicBackground />
       {showParentPopup && studentId && <ParentDetailsPopup studentId={studentId} />}
       
       <Navbar />
-
-
       <header className={`${styles.hero} animate-fade-in`}>
         <div className="container">
           <h1 className={styles.heroTitle}>
@@ -86,7 +76,6 @@ export default async function Home() {
           )}
         </div>
       </header>
-
       {/* Live Updates Section */}
       <div className="container">
         <ScrollReveal>
@@ -103,7 +92,6 @@ export default async function Home() {
           </section>
         </ScrollReveal>
       </div>
-
       {/* Sliding Gallery Section */}
       <div className="container">
         <ScrollReveal>
