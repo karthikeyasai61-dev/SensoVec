@@ -1,0 +1,487 @@
+.mainWrapper {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  padding-bottom: 6rem;
+  font-family: 'Inter', var(--font-main);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Tech Blueprint Grid Background */
+.mainWrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.008) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.008) 1px, transparent 1px);
+  background-size: 60px 60px;
+  background-position: center;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+/* Floating Radial Glow Lights */
+.bgGlow1, .bgGlow2, .bgGlow3 {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(140px);
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.08;
+  animation: floatGlow 25s infinite alternate ease-in-out;
+}
+
+.bgGlow1 {
+  top: -10%;
+  left: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, var(--primary) 0%, transparent 80%);
+}
+
+.bgGlow2 {
+  bottom: -15%;
+  right: -15%;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, #6366f1 0%, transparent 80%);
+  animation-delay: -7s;
+}
+
+.bgGlow3 {
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #00c6ff 0%, transparent 80%);
+  animation-delay: -14s;
+  opacity: 0.04;
+}
+
+@keyframes floatGlow {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  50% { transform: translate(8%, 12%) scale(1.15) rotate(120deg); }
+  100% { transform: translate(-5%, -8%) scale(0.9) rotate(240deg); }
+}
+
+/* 
+   Stunning Elastic Scroll Reveal 
+   Uses transition delays to stagger layout entries with a spring bounce 
+*/
+.reveal {
+  opacity: 0;
+  transform: translateY(50px) scale(0.93);
+  transition: 
+    opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
+    transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.reveal:global(.visible) {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.hero {
+  padding-top: 9rem;
+  padding-bottom: 4rem;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.heroGlow {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(0, 153, 255, 0.18) 0%, rgba(99, 102, 241, 0) 70%);
+  filter: blur(50px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Flowing/Shimmering Linear Gradient Title */
+.title {
+  font-family: 'Orbitron', var(--font-main);
+  font-weight: 900;
+  font-size: 3.75rem;
+  letter-spacing: -0.01em;
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #0099ff, #6366f1, #00c6ff, #0099ff);
+  background-size: 300% 100%;
+  animation: gradientFlow 8s infinite linear;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.introBlock {
+  max-width: 950px;
+  margin: 0 auto 5rem auto;
+  text-align: center;
+}
+
+.introTextMain {
+  font-size: 1.25rem;
+  line-height: 1.9;
+  color: #f8fafc;
+  margin-bottom: 2rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-align: justify;
+}
+
+.introTextSecondary {
+  font-size: 1.08rem;
+  line-height: 1.85;
+  color: #94a3b8;
+  text-align: justify;
+}
+
+.servicesBlock {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  margin-bottom: 6rem;
+}
+
+@media (max-width: 768px) {
+  .servicesBlock {
+    grid-template-columns: 1fr;
+  }
+}
+
+.servicesCard {
+  background: rgba(26, 26, 36, 0.35);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: var(--border-radius);
+  padding: 2.5rem;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.servicesCard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--border-radius);
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.06), transparent 50%, rgba(0, 153, 255, 0.15));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.servicesCard:hover {
+  border-color: rgba(0, 153, 255, 0.35);
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.3),
+    0 0 25px rgba(0, 153, 255, 0.15);
+  transform: translateY(-8px) scale(1.01);
+  background: rgba(26, 26, 36, 0.55);
+}
+
+.servicesText {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #94a3b8;
+  text-align: justify;
+}
+
+.visionMissionGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  margin-bottom: 6rem;
+}
+
+@media (max-width: 768px) {
+  .visionMissionGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+.card {
+  background: rgba(26, 26, 36, 0.35);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 20px;
+  padding: 3rem 2.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.01);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.35),
+    0 0 30px rgba(0, 153, 255, 0.1);
+  background: rgba(26, 26, 36, 0.6);
+}
+
+.visionCard::before {
+  background: linear-gradient(180deg, #0099ff, transparent 80%);
+}
+
+.missionCard::before {
+  background: linear-gradient(180deg, #10b981, transparent 80%);
+}
+
+.card:hover.visionCard::before {
+  width: 6px;
+  box-shadow: 0 0 15px rgba(0, 153, 255, 0.4);
+}
+
+.card:hover.missionCard::before {
+  width: 6px;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.cardTitle {
+  font-family: 'Orbitron', var(--font-main);
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+
+.cardIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.visionIcon {
+  background: rgba(0, 153, 255, 0.1);
+  color: #0099ff;
+  border: 1px solid rgba(0, 153, 255, 0.2);
+}
+
+.missionIcon {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.card:hover .visionIcon {
+  transform: rotate(-10deg) scale(1.1);
+  box-shadow: 0 0 15px rgba(0, 153, 255, 0.3);
+  background: rgba(0, 153, 255, 0.2);
+  color: #ffffff;
+}
+
+.card:hover .missionIcon {
+  transform: rotate(10deg) scale(1.1);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+  background: rgba(16, 185, 129, 0.2);
+  color: #ffffff;
+}
+
+.cardBody {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: #cbd5e1;
+  text-align: justify;
+}
+
+.sectionHeading {
+  font-family: 'Orbitron', var(--font-main);
+  font-size: 2.25rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 4rem;
+  letter-spacing: -0.01em;
+}
+
+.focusSection {
+  margin-bottom: 6.5rem;
+}
+
+.focusGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.focusItem {
+  background: rgba(26, 26, 36, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 14px;
+  padding: 1.35rem;
+  display: flex;
+  align-items: center;
+  gap: 1.15rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.focusItem:hover {
+  background: rgba(26, 26, 36, 0.7);
+  border-color: rgba(0, 153, 255, 0.3);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 
+    0 10px 25px rgba(0, 0, 0, 0.25),
+    0 0 15px rgba(0, 153, 255, 0.15);
+}
+
+.focusDot {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(0, 153, 255, 0.06);
+  color: #0099ff;
+  border: 1px solid rgba(0, 153, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.focusItem:hover .focusDot {
+  background: rgba(0, 153, 255, 0.2);
+  color: #ffffff;
+  border-color: rgba(0, 153, 255, 0.4);
+}
+
+.focusItem:hover .focusDot svg {
+  transform: rotate(15deg) scale(1.15);
+}
+
+.focusLabel {
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  transition: color 0.3s ease;
+}
+
+.focusItem:hover .focusLabel {
+  color: #ffffff;
+}
+
+.goalCard {
+  background: linear-gradient(135deg, rgba(26, 26, 36, 0.8) 0%, rgba(13, 13, 18, 0.96) 100%);
+  border: 1px solid rgba(0, 153, 255, 0.25);
+  border-radius: 24px;
+  padding: 4.5rem 3rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 153, 255, 0.08);
+}
+
+.goalCard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  padding: 1.5px;
+  background: linear-gradient(135deg, rgba(0, 153, 255, 0.25), transparent 60%, rgba(99, 102, 241, 0.3));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.goalCardGlow {
+  position: absolute;
+  bottom: -60px;
+  right: -60px;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(0, 153, 255, 0.15) 0%, rgba(99, 102, 241, 0) 70%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.goalIcon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(0, 153, 255, 0.08);
+  color: #0099ff;
+  border: 1px solid rgba(0, 153, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem auto;
+  box-shadow: 0 0 25px rgba(0, 153, 255, 0.12);
+  animation: pulseGoal 3s infinite alternate ease-in-out;
+}
+
+@keyframes pulseGoal {
+  0% { transform: scale(1); box-shadow: 0 0 20px rgba(0, 153, 255, 0.1); }
+  100% { transform: scale(1.08); box-shadow: 0 0 30px rgba(0, 153, 255, 0.25); }
+}
+
+.goalTitle {
+  font-family: 'Orbitron', var(--font-main);
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.goalText {
+  font-size: 1.2rem;
+  line-height: 1.85;
+  color: #e2e8f0;
+  max-width: 950px;
+  margin: 0 auto;
+}
