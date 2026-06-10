@@ -16,7 +16,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Name, email and password are required" }, { status: 400 });
     }
 
-    const existing = await adminDb.collection("students").where("email", "==", email.toLowerCase().trim()).get();
+    const normalizedEmail = email.toLowerCase().trim();
+    if (normalizedEmail === "sensovec@gmail.com") {
+      return NextResponse.json({ error: "This email address is reserved for administrator accounts." }, { status: 400 });
+    }
+
+    const existing = await adminDb.collection("students").where("email", "==", normalizedEmail).get();
     if (!existing.empty) {
       return NextResponse.json({ error: "An account with this email already exists" }, { status: 409 });
     }
