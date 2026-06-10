@@ -13,8 +13,22 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Email and Name are required" }, { status: 400 });
     }
 
+    const normalizedEmail = email.toLowerCase().trim();
+
+    // Check if the user is the Admin
+    if (normalizedEmail === "sensovec@gmail.com") {
+      cookieStore.set("admin_auth", "true", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        path: "/",
+        maxAge: 60 * 60 * 24 * 7,
+      });
+      return NextResponse.json({ success: true, role: "admin", name: "Admin" });
+    }
+
     // Check if student already exists in our collection
-    const studentsQuery = await adminDb.collection("students").where("email", "==", email).get();
+    const studentsQuery = await adminDb.collection("students").where("email", "==", normalizedEmail).get();
     let studentId = "";
     let studentName = name;
 
@@ -23,7 +37,7 @@ export async function POST(request: Request) {
       const studentRef = adminDb.collection("students").doc();
       const studentData = {
         name,
-        email,
+        email: normalizedEmail,
         password: "google-oauth-managed-account", // Placeholder since password isn't used
         phone: "",
         role: "Student",
@@ -65,7 +79,7 @@ export async function POST(request: Request) {
       maxAge: 60 * 60 * 24 * 7,
     });
 
-    return NextResponse.json({ success: true, name: studentName });
+    return NextResponse.json({ success: true, role: "student", name: studentName });
   } catch (error) {
     console.error("Google Login Backend Error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
