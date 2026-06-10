@@ -75,7 +75,11 @@ export default function LoginPageClient({ redirectUrl }: { redirectUrl?: string 
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || "Google login failed");
 
-        router.push(redirectUrl || "/");
+        if (data.role === "admin") {
+          router.push("/admin/dashboard");
+        } else {
+          router.push(redirectUrl || "/");
+        }
         router.refresh();
       } else {
         // Redirect to signup page with query params to pre-fill and require details
@@ -83,8 +87,32 @@ export default function LoginPageClient({ redirectUrl }: { redirectUrl?: string 
         router.push(`/signup?google=true&email=${encodeURIComponent(user.email)}&name=${encodeURIComponent(user.displayName)}&uid=${user.uid}${signupRedirect}`);
       }
     } catch (err: any) {
-      console.error(err);
-      setError(err.message || "Google Login failed");
+      console.error("Google Auth Error:", err);
+      let errMsg = "Google Login failed. Please try again.";
+      if (err.code) {
+        switch (err.code) {
+          case "auth/popup-blocked":
+            errMsg = "The login popup was blocked by your browser. Please enable popups for this site.";
+            break;
+          case "auth/unauthorized-domain":
+            errMsg = `This domain (${window.location.hostname}) is not authorized for Google Sign-In. Please add it to your Firebase Auth Authorized Domains.`;
+            break;
+          case "auth/configuration-not-found":
+            errMsg = "Google sign-in is not enabled in your Firebase project configuration.";
+            break;
+          case "auth/popup-closed-by-user":
+            errMsg = "The login popup was closed before completing authentication.";
+            break;
+          case "auth/network-request-failed":
+            errMsg = "Network error. Please check your internet connection and try again.";
+            break;
+          default:
+            errMsg = err.message || errMsg;
+        }
+      } else {
+        errMsg = err.message || errMsg;
+      }
+      setError(errMsg);
     } finally {
       setLoading(false);
     }
